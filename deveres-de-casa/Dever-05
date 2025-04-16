@@ -1,0 +1,55 @@
+
+
+import csv
+import numpy as np
+from sklearn.linear_model import LogisticRegression
+
+# Criando dados de exemplo
+data = [
+    [18.5, False],
+    [20.0, False],
+    [25.0, False],
+    [27.0, True],
+    [30.0, True],
+    [32.0, True],
+    [35.0, True],
+    [19.0, False],
+    [22.5, False],
+    [29.0, True],
+]
+
+# Criando o arquivo CSV
+with open('imc_data.csv', 'w', newline='') as csvfile:
+    writer = csv.writer(csvfile)
+    writer.writerow(['IMC', 'Obeso'])  # Cabeçalho
+    writer.writerows(data)
+
+
+# Carregando os dados do arquivo CSV
+imc_values = []
+obesity_values = []
+with open('imc_data.csv', 'r') as csvfile:
+  reader = csv.DictReader(csvfile)
+  for row in reader:
+    imc_values.append(float(row['IMC']))
+    obesity_values.append(bool(row['Obeso']))
+
+# Convertendo para arrays numpy
+X = np.array(imc_values).reshape(-1, 1)
+y = np.array(obesity_values)
+
+# Treinando o modelo de regressão logística
+model = LogisticRegression()
+model.fit(X, y)
+
+# Prevendo a obesidade para um novo IMC
+novo_imc = 26.5 # Exemplo
+predicao = model.predict(np.array([[novo_imc]]))[0]
+
+print(f"Para um IMC de {novo_imc}, a predição é: Obeso = {predicao}")
+     
+Running cells with 'Python 3.11.9' requires the ipykernel package.
+
+Run the following command to install 'ipykernel' into the Python environment. 
+
+Command: '"c:/Users/Caio Víctor/AppData/Local/Microsoft/WindowsApps/python3.11.exe" -m pip install ipykernel -U --user --force-reinstall'
