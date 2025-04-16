@@ -1,0 +1,39 @@
+
+
+import random
+import pandas as pd
+
+# Lista de frutas com repetições
+frutas = ["maçã", "banana", "laranja", "uva", "maçã", "melão", "mamão", "banana"]
+
+# Criar um conjunto para remover as frutas repetidas
+conjunto_frutas = set(frutas)
+
+# Criar um dicionário para armazenar a quantidade de cada fruta
+quantidade_frutas = {}
+
+# Abrir o arquivo para escrita
+with open("minhas_frutas.txt", "w") as arquivo:
+    for fruta in conjunto_frutas:
+        quantidade = random.randint(0, 100)
+        arquivo.write(f"{fruta},{quantidade}\n")
+
+# Criar uma lista para armazenar os dados do arquivo
+dados_frutas = []
+
+# Abrir o arquivo para leitura
+with open("minhas_frutas.txt", "r") as arquivo:
+    for linha in arquivo:
+        fruta, quantidade = linha.strip().split(",")
+        dados_frutas.append([fruta, int(quantidade)])
+
+
+# Criar o DataFrame usando a biblioteca pandas
+df = pd.DataFrame(dados_frutas, columns=["Fruta", "Quantidade"])
+
+# Agrupar as frutas e somar suas quantidades
+df_agrupado = df.groupby("Fruta")["Quantidade"].sum().reset_index()
+
+# Exibir o conteúdo do DataFrame no console
+df_agrupado
+     
